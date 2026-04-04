@@ -1,0 +1,39 @@
+<template>
+    <lightning-card title="Opportunity Path" icon-name="standard:opportunity">
+
+        <div class="header">
+
+            <template if:true={stages.length}>
+
+                <lightning-progress-indicator
+                    current-step={currentStage}
+                    type="path"
+                    class="path">
+
+                    <template for:each={stages} for:item="stage">
+
+                        <lightning-progress-step
+                            key={stage}
+                            label={stage}
+                            value={stage}
+                            onclick={handleStageSelect}>
+                        </lightning-progress-step>
+
+                    </template>
+
+                </lightning-progress-indicator>
+
+            </template>
+
+            <div>
+                <lightning-button
+                    label="Mark Stage as Complete"
+                    variant="brand"
+                    onclick={handleMarkComplete}>
+                </lightning-button>
+            </div>
+
+        </div>
+
+    </lightning-card>
+</template>

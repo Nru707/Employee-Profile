@@ -1,0 +1,39 @@
+<template>
+
+    <lightning-card>
+        <div class="header">
+            Profile Photo
+        </div>
+
+        <div class="centerBox">
+            <template if:true={imageUrl}>
+                <img src={imageUrl} class="profileImg" />
+            </template>
+        </div>
+        <div class="button">
+
+            <!-- Edit Button -->
+            <template if:true={showEditButton}>
+                <lightning-button label="Change Profile Photo" variant="brand" onclick={handleEdit}>
+                </lightning-button>
+            </template>
+
+
+            <!-- Upload Section -->
+            <template if:true={showUploadSection}>
+
+                <lightning-input type="file" label="Upload Photo" onchange={handleFileChange}>
+                </lightning-input>
+                <lightning-button label="Save Photo" variant="brand" onclick={uploadPhoto}>
+                </lightning-button>
+                <lightning-button label="Cancel" variant="secondary" onclick={handleCancel}>
+                </lightning-button>
+
+            </template>
+        </div>
+
+
+
+    </lightning-card>
+
+</template>

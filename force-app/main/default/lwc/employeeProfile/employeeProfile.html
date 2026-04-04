@@ -1,0 +1,48 @@
+<template>
+    <div class="tabset">
+        <div class="container">
+            <lightning-card>
+                <div class="form-box">
+                    <lightning-tabset class="tabset">
+                        <lightning-tab label="Details" value="1" onactive={handleActive}>
+                            <lightning-accordion allow-multiple-sections-open active-section-name="A">
+                                <div class="accord-A">
+                                    <lightning-accordion-section name="A" label="Personal Information">
+                                        <lightning-input label="First Name" required></lightning-input>
+                                        <lightning-input label="Last Name" required></lightning-input>
+                                        <lightning-input label="Email" required></lightning-input>
+                                        <lightning-input label="Phone" required></lightning-input>
+                                        <lightning-input label="Department" required></lightning-input>
+                                        <lightning-input label="Position" required></lightning-input>
+                                    </lightning-accordion-section>
+                                </div>
+                            </lightning-accordion>
+
+                            <lightning-accordion allow-multiple-sections-open active-section-name="B">
+                                <div class="accord-B">
+                                    <lightning-accordion-section class="accord-B" name="B" label="Address Information">
+                                        <lightning-input-address address-label="Address" street-label="Street"
+                                            city-label="City" country-label="Country" province-label="Province"
+                                            postal-code-label="PostalCode" street="121 Spear St." city="San Francisco"
+                                            country="US" province="CA" postal-code="94105" required
+                                            field-level-help="Help Text for inputAddress field">
+                                        </lightning-input-address>
+                                    </lightning-accordion-section>
+                                </div>
+                            </lightning-accordion>
+
+                            <lightning-button label="Save" variant="brand" class="button-space"></lightning-button>
+                        </lightning-tab>
+                        <lightning-tab label="Related" value="2" onactive={handleActive}>
+                            <div class="container">
+                                <lightning-card>
+
+                                </lightning-card>
+                            </div>
+                        </lightning-tab>
+                    </lightning-tabset>
+                </div>
+            </lightning-card>
+        </div>
+    </div>
+</template>

@@ -1,0 +1,36 @@
+/* parent layout */
+.main {
+    display: flex;        /* 2 columns */
+    gap: 20px;
+}
+
+/* container width */
+.container {
+    flex: 1;              /* equal size */
+}
+.tabset {
+    width: 70%;         
+}
+
+/* card width control */
+.lightning-card {
+    width: 100%;          
+    margin-top: 20px;
+}
+
+/* form padding */
+.form-box {
+    padding: 20px;
+}
+
+/* Button styling */
+.button-space {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.accord-A, .accord-B{
+    --slds-c-accordion-summary-color-background: #dfdede; /* light gray background */
+    margin-bottom: 10px;
+}
