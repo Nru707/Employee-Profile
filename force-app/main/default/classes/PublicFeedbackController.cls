@@ -95,30 +95,51 @@ public without sharing class PublicFeedbackController {
 
     public PageReference submitFeedback() {
         try {
+            // Debug log
+            System.debug('=== SUBMIT START ===');
+            System.debug('oppId: ' + oppId);
+            System.debug('dynamicResponsesJSON: ' + dynamicResponsesJSON);
+            System.debug('starRating: ' + starRating);
+            System.debug('npsScore: ' + npsScore);
+            System.debug('respondentName: ' + respondentName);
+            System.debug('comments: ' + comments);
+
+            // OppId URL se lo agar blank hai
+            if (String.isBlank(oppId)) {
+                oppId = ApexPages.currentPage().getParameters().get('oppId');
+            }
+
             Product_Feedback__c fb = new Product_Feedback__c();
-            fb.Opportunity__c             = oppId;
-            //fb.Respondent_Name__c         = respondentName;
-            //fb.Respondent_Email__c        = respondentEmail;
-            fb.Feedback_Date__c           = String.isNotBlank(feedbackDate) ? Date.valueOf(feedbackDate) : Date.today();
-            //fb.Subject__c                 = subject;
-            //fb.Star_Rating__c             = String.isNotBlank(starRating) ? Decimal.valueOf(starRating) : null;
-            //fb.NPS_Score__c               = String.isNotBlank(npsScore)   ? Decimal.valueOf(npsScore)   : null;
-            //fb.Comments__c                = comments;
-            //fb.Improvement_Suggestions__c = improvementSuggestions;
-            fb.Submission_Status__c       = 'Submitted';
+            fb.Opportunity__c       = oppId;
+            fb.Submission_Status__c = 'Submitted';
+            fb.Feedback_Date__c     = String.isNotBlank(feedbackDate) ? Date.valueOf(feedbackDate) : Date.today();
             insert fb;
 
+            System.debug('Feedback inserted: ' + fb.Id);
+
+            // Dynamic responses save karo
             if (String.isNotBlank(dynamicResponsesJSON)) {
+                System.debug('Saving dynamic responses...');
                 Map<String, Object> dynData = (Map<String, Object>) JSON.deserializeUntyped(dynamicResponsesJSON);
                 List<Feedback_Response__c> responses = new List<Feedback_Response__c>();
+
                 for (String qId : dynData.keySet()) {
+                    String responseVal = String.valueOf(dynData.get(qId));
+                    System.debug('Q: ' + qId + ' => ' + responseVal);
+
                     Feedback_Response__c fr = new Feedback_Response__c();
                     fr.Product_Feedback__c = fb.Id;
                     fr.Question__c         = qId;
-                    fr.Response_Text__c    = String.valueOf(dynData.get(qId));
+                    fr.Response_Text__c    = responseVal;
                     responses.add(fr);
                 }
-                if (!responses.isEmpty()) insert responses;
+
+                if (!responses.isEmpty()) {
+                    insert responses;
+                    System.debug('Responses inserted: ' + responses.size());
+                }
+            } else {
+                System.debug('dynamicResponsesJSON is BLANK - responses not saved!');
             }
 
             submittedFeedbackId = fb.Id;
@@ -126,6 +147,7 @@ public without sharing class PublicFeedbackController {
             isSubmitted         = true;
 
         } catch (Exception e) {
+            System.debug('ERROR: ' + e.getMessage() + ' | Line: ' + e.getLineNumber());
             ApexPages.addMessage(new ApexPages.Message(
                 ApexPages.Severity.ERROR, 'Error: ' + e.getMessage()
             ));

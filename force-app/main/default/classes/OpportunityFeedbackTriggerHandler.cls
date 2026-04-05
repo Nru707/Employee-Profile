@@ -38,6 +38,7 @@ public with sharing class OpportunityFeedbackTriggerHandler {
 
         } catch (Exception e) {
             System.debug('Error: ' + e.getMessage());
+            throw e; // Rethrow to ensure transaction rollback
         }
     }
 }
